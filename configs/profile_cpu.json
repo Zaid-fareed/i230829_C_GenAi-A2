@@ -1,0 +1,3 @@
+{"name": "cpu-laptop", "device": "cpu", "result_dir": "metrics",
+ "target_base": "checkpoints/base/SmolLM2-360M-Instruct", "draft_base": "checkpoints/base/SmolLM2-135M-Instruct",
+ "target_adapter": "checkpoints/adapters/smollm2-360m-lora/best", "draft_adapter": "checkpoints/adapters/smollm2-135m-lora/best"}

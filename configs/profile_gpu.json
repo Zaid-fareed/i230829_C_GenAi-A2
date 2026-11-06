@@ -1,0 +1,3 @@
+{"name": "kaggle-gpu", "device": "cuda", "result_dir": "metrics_gpu",
+ "target_base": "checkpoints/base/SmolLM2-1.7B-Instruct", "draft_base": "checkpoints/base/SmolLM2-360M-Instruct",
+ "target_adapter": "checkpoints/adapters/smollm2-1.7b-lora/best", "draft_adapter": "checkpoints/adapters/smollm2-360m-gpu-lora/best"}
