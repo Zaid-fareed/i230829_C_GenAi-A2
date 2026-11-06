@@ -9,7 +9,7 @@
 
 \textbf{No patient-level ground truth.} The preliminary outcome is a transparent rule over criterion labels; it has not been validated against any patient-trial label and should not be read as one.
 
-\textbf{Benchmark validity.} Timings come from one laptop CPU with background load kept minimal but not zero. Memory is a sampled RSS proxy. The educational tiled attention is pure PyTorch and says nothing about fused GPU kernels; speculative-decoding speed-ups measured here depend on the CPU cost ratio of the two models and on the very short natural outputs.
+\textbf{Benchmark validity.} Stored benchmark timings come from a single shared Kaggle T4 session, so clocks and neighbouring load are not controlled; the CPU configuration has no stored benchmark tables, only the live comparison in the application. The educational tiled attention is pure PyTorch and says nothing about fused GPU kernels; the speculative-decoding slowdown measured here depends on the layer-count ratio of this particular draft/target pair (32 vs.\ 24 layers) and on the very short natural outputs, and a different pair could behave differently.
 
 \textbf{Safety.} The system is an educational screening prototype. It must not be used for enrollment, treatment or any other clinical decision.
 

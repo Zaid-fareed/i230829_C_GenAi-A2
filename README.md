@@ -20,6 +20,22 @@ predicts the expert eligibility label **and** the supporting note-sentence IDs, 
 | IEEE LaTeX paper | `report/main.tex` |
 | Research notes, design decisions, AI-use, demo script, checklist | `docs/` |
 
+## Results at a glance (held-out test split: 8 patients, 206 criteria)
+| Configuration | Accuracy | Macro-F1 | Evidence micro-F1 |
+|---|---|---|---|
+| Majority label per criterion type (baseline) | 0.626 | 0.272 | – |
+| **A (GPU)** SmolLM2-1.7B zero-shot | 0.146 | 0.111 | 0.151 |
+| **A (GPU)** SmolLM2-1.7B + LoRA | **0.709** | **0.460** | **0.384** |
+| **B (CPU)** SmolLM2-360M zero-shot | 0.437 | 0.234 | 0.000 |
+| **B (CPU)** SmolLM2-360M + LoRA | 0.626 | 0.333 | 0.123 |
+
+Honest reading: the accuracy gain over the majority baseline is not statistically established (patient-level bootstrap
+intervals overlap), the gain is confined to *inclusion* criteria, and on *exclusion* criteria the models answer
+"not excluded" almost always. Details, per-class tables, confusion matrices and error analysis are in the paper.
+KV cache: exact (token-identical) and up to ~19× faster than recomputation at 512+128 tokens (GPU);
+tiled attention: matches the reference to ~1e-6, memory grows linearly, slower than fused kernels in pure PyTorch;
+speculative decoding: exact, but slower than greedy for these draft/target pairs (explained in the paper).
+
 ## Folder layout
 ```
 src/        library code (data, metrics, attention, minillama, decode, pipeline, trials, memprobe)
