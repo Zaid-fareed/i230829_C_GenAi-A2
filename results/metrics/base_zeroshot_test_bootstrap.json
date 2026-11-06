@@ -1,0 +1,18 @@
+{
+  "tag": "base_zeroshot",
+  "split": "test",
+  "n_patients": 8,
+  "bootstrap_samples": 2000,
+  "accuracy_95ci": [
+    0.3669724770642202,
+    0.5393991899189919
+  ],
+  "macro_f1_95ci": [
+    0.1901763319633672,
+    0.2725503981080599
+  ],
+  "evidence_micro_f1_95ci": [
+    0.0,
+    0.0
+  ]
+}
