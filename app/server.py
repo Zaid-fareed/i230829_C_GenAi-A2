@@ -96,10 +96,10 @@ class ReportReq(BaseModel):
 @app.get("/api/status")
 def status():
     e = STATE["engine"]
-    from pipeline import MODES, MAX_NEW
+    from pipeline import MODES, MAX_NEW, TARGET_BASE, DRAFT_BASE, PROFILE
     return {"status": STATE["status"], "error": STATE["error"], "disclaimer": DISCLAIMER, "modes": MODES,
             "adapter": e.adapter_name if e else None, "max_new_tokens": MAX_NEW,
-            "model": "SmolLM2-360M-Instruct + LoRA (target), SmolLM2-135M-Instruct + LoRA (draft)"}
+            "model": f"{TARGET_BASE.name} + LoRA (target), {DRAFT_BASE.name} + LoRA (draft) [{PROFILE.get('name')}]"}
 
 
 @app.post("/api/number_note")
@@ -225,10 +225,11 @@ def stored():
 
 def _provenance(mode):
     e = STATE["engine"]
-    ad = Path(__file__).resolve().parents[1] / "checkpoints" / "adapters" / "smollm2-360m-lora" / "best" / "adapter_model.safetensors"
+    from pipeline import TARGET_ADAPTER, TARGET_BASE
+    ad = Path(TARGET_ADAPTER) / "adapter_model.safetensors"
     sha = hashlib.sha256(ad.read_bytes()).hexdigest()[:16] if ad.exists() else "n/a"
     return {"generated_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
-            "model": "SmolLM2-360M-Instruct + LoRA adapter", "adapter_sha256_prefix": sha,
+            "model": f"{TARGET_BASE.name} + LoRA adapter", "adapter_sha256_prefix": sha,
             "decoding": f"greedy, max_new_tokens=48, mode={mode}, fp32 CPU", "adapter": e.adapter_name if e else None}
 
 

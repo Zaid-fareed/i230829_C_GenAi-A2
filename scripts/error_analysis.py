@@ -71,12 +71,12 @@ for cat, lst in sorted(by.items(), key=lambda kv: -len(kv[1])):
             break
 out = {"tag": tag, "split": split, "category_counts": cnt, "n_contradictory_decisive_without_evidence": sum(r["contradictory"] for r in rows),
        "n_label_errors": sum(r["gold_label"] != r["pred_label"] for r in rows), "examples": chosen}
-(ROOT / "results" / f"error_analysis_{RUN}_{tag}_{split}.json").write_text(json.dumps(out, indent=2, default=str))
+(ROOT / "results" / f"error_analysis_{RUN}_{tag}_{split}.json").write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
 md = [f"# Error analysis - {tag} on {split}", "", f"Category counts: {dict(cnt)}", f"Decisive predictions with no cited sentence: {out['n_contradictory_decisive_without_evidence']}", ""]
 for i, r in enumerate(chosen, 1):
     md += [f"## E{i} [{r['category']}] patient {r['patient_id']}, trial {r['trial_id']}",
            f"- criterion ({r['criterion_type']}): {r['criterion_text']}",
            f"- expert: **{r['gold_label']}**, evidence {r['gold_evidence']}  | model: **{r['pred_label']}**, evidence {r['pred_evidence']}",
            f"- expert evidence text: {r['gold_evidence_text']}", f"- model evidence text: {r['pred_evidence_text']}", f"- raw output: `{r['raw_output']}`", ""]
-(ROOT / "results" / f"error_analysis_{RUN}_{tag}_{split}.md").write_text("\n".join(md))
+(ROOT / "results" / f"error_analysis_{RUN}_{tag}_{split}.md").write_text("\n".join(md), encoding="utf-8")
 print("examples:", len(chosen))
