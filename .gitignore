@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# large artefacts are hosted outside Git (see README "Model weights")
+checkpoints/base/
+checkpoints/adapters/*/epoch*/
+*.safetensors
+data/raw/
+# raw console captures
+*.out
+*.err
+# LaTeX build products
+report/*.aux
+report/*.log
+report/*.out
+report/*.bbl
+report/*.blg
+report/*.synctex.gz

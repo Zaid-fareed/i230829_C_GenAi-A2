@@ -1,0 +1,17 @@
+torch==2.14.0
+transformers==5.22.1
+peft==0.21.2
+huggingface_hub>=1.0
+safetensors>=0.8.0
+datasets>=5.0
+pandas>=3.0
+pyarrow>=25.0
+numpy>=2.5
+scikit-learn>=1.9
+matplotlib>=3.10
+psutil>=7.0
+requests>=2.32
+fastapi>=0.140
+uvicorn>=0.50
+pydantic>=2.12
+pytest>=8.0
