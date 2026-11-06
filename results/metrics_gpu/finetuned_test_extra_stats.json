@@ -1,0 +1,30 @@
+{
+  "decisive_uncited": 130,
+  "decisive_uncited_gold_has_evidence": 16,
+  "decisive_uncited_gold_empty": 114,
+  "false_decisions": 42,
+  "false_decisions_pred_labels": {
+    "not excluded": 40,
+    "included": 2
+  },
+  "false_decisions_gold_labels": {
+    "not applicable": 12,
+    "not enough information": 30
+  },
+  "false_decisions_by_type": {
+    "exclusion": 40,
+    "inclusion": 2
+  },
+  "nei_cited_gold_empty": 1,
+  "exclusion_pred_dist": {
+    "not excluded": 130,
+    "not enough information": 1
+  },
+  "inclusion_pred_dist": {
+    "included": 24,
+    "not enough information": 50,
+    "not applicable": 1
+  },
+  "label_right_evidence_wrong": 35,
+  "correct_label_and_evidence": 111
+}

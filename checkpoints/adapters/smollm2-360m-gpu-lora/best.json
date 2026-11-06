@@ -1,0 +1,11 @@
+{
+  "best_epoch": 2,
+  "selection": "max val macro-F1, ties by lower val loss",
+  "epoch": 2,
+  "step": 76,
+  "val_loss": 0.19199423125343015,
+  "val_accuracy": 0.7184466019417476,
+  "val_macro_f1": 0.34093445104855896,
+  "val_evidence_micro_f1": 0.325,
+  "elapsed_s": 269.4990177154541
+}

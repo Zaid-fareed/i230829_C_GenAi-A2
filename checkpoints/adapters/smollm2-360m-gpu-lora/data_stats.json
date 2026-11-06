@@ -1,0 +1,8 @@
+{
+  "n_train": 602,
+  "n_val": 206,
+  "max_len_setting": 1024,
+  "max_tokens_seen": 580,
+  "mean_tokens": 301.39232673267327,
+  "n_truncated": 0
+}

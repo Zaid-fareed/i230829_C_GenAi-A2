@@ -1,0 +1,308 @@
+{
+  "tag": "finetuned",
+  "split": "test",
+  "category_counts": {
+    "correct": 111,
+    "missed_decision": 13,
+    "polarity_flip": 3,
+    "false_decision": 42,
+    "evidence_only": 35,
+    "na_confusion": 2
+  },
+  "n_contradictory_decisive_without_evidence": 130,
+  "n_label_errors": 60,
+  "examples": [
+    {
+      "annotation_id": 165,
+      "patient_id": "sigir-201410",
+      "trial_id": "NCT02097186",
+      "criterion_type": "exclusion",
+      "criterion_text": "Pregnancy",
+      "gold_label": "not applicable",
+      "gold_evidence": [],
+      "pred_label": "not excluded",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not excluded\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.7168880650001483,
+      "n_prompt_tokens": 225,
+      "n_new_tokens": 13,
+      "category": "false_decision",
+      "gold_evidence_text": {},
+      "pred_evidence_text": {},
+      "contradictory": true
+    },
+    {
+      "annotation_id": 193,
+      "patient_id": "sigir-201411",
+      "trial_id": "NCT01526382",
+      "criterion_type": "exclusion",
+      "criterion_text": "Patients were moribund.",
+      "gold_label": "not enough information",
+      "gold_evidence": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "pred_label": "not excluded",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not excluded\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.8086105239999597,
+      "n_prompt_tokens": 251,
+      "n_new_tokens": 13,
+      "category": "false_decision",
+      "gold_evidence_text": {
+        "0": "A 40-year-old woman with no past medical history presents to the ER with excruciating pain in her right arm that had started 1 hour prior to her admission.",
+        "1": "She denies trauma.",
+        "2": "On examination she is pale and in moderate discomfort, as well as tachypneic and tachycardic.",
+        "3": "Her body temperature is normal and her blood pressure is 80/60.",
+        "4": "Her right arm has no discoloration or movement limitation."
+      },
+      "pred_evidence_text": {},
+      "contradictory": true
+    },
+    {
+      "annotation_id": 315,
+      "patient_id": "sigir-201417",
+      "trial_id": "NCT01745731",
+      "criterion_type": "exclusion",
+      "criterion_text": "BMI> 40 kg/m2.",
+      "gold_label": "not enough information",
+      "gold_evidence": [],
+      "pred_label": "not excluded",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not excluded\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.878607822000049,
+      "n_prompt_tokens": 264,
+      "n_new_tokens": 13,
+      "category": "false_decision",
+      "gold_evidence_text": {},
+      "pred_evidence_text": {},
+      "contradictory": true
+    },
+    {
+      "annotation_id": 179,
+      "patient_id": "sigir-201410",
+      "trial_id": "NCT02264964",
+      "criterion_type": "exclusion",
+      "criterion_text": "Had been performed central venous puncture or catheterization before.",
+      "gold_label": "not excluded",
+      "gold_evidence": [
+        0
+      ],
+      "pred_label": "not excluded",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not excluded\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.7559839690002264,
+      "n_prompt_tokens": 235,
+      "n_new_tokens": 13,
+      "category": "evidence_only",
+      "gold_evidence_text": {
+        "0": "A physician is called to see a 67-year-old woman who underwent cardiac catheterization via the right femoral artery earlier in the morning."
+      },
+      "pred_evidence_text": {},
+      "contradictory": true
+    },
+    {
+      "annotation_id": 191,
+      "patient_id": "sigir-201411",
+      "trial_id": "NCT01526382",
+      "criterion_type": "inclusion",
+      "criterion_text": "bilateral pulmonary infiltrates or a chest radiograph consistent with edema;",
+      "gold_label": "not enough information",
+      "gold_evidence": [],
+      "pred_label": "not enough information",
+      "pred_evidence": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": [0, 1, 2, 3, 4]}",
+      "well_formed": true,
+      "latency_s": 1.4050104369998735,
+      "n_prompt_tokens": 258,
+      "n_new_tokens": 27,
+      "category": "evidence_only",
+      "gold_evidence_text": {},
+      "pred_evidence_text": {
+        "0": "A 40-year-old woman with no past medical history presents to the ER with excruciating pain in her right arm that had started 1 hour prior to her admission.",
+        "1": "She denies trauma.",
+        "2": "On examination she is pale and in moderate discomfort, as well as tachypneic and tachycardic.",
+        "3": "Her body temperature is normal and her blood pressure is 80/60.",
+        "4": "Her right arm has no discoloration or movement limitation."
+      },
+      "contradictory": false
+    },
+    {
+      "annotation_id": 306,
+      "patient_id": "sigir-201417",
+      "trial_id": "NCT01745731",
+      "criterion_type": "inclusion",
+      "criterion_text": "Patients with liver space occupying lesion (LOE) that require extended hepatic resection.",
+      "gold_label": "not enough information",
+      "gold_evidence": [
+        3
+      ],
+      "pred_label": "not enough information",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.9338039330000356,
+      "n_prompt_tokens": 271,
+      "n_new_tokens": 14,
+      "category": "evidence_only",
+      "gold_evidence_text": {
+        "3": "Exploratory laparotomy reveals a ruptured liver abscess, which is then surgically drained."
+      },
+      "pred_evidence_text": {},
+      "contradictory": false
+    },
+    {
+      "annotation_id": 161,
+      "patient_id": "sigir-201410",
+      "trial_id": "NCT02097186",
+      "criterion_type": "inclusion",
+      "criterion_text": "Patients undergoing elective carotid endarterectomy",
+      "gold_label": "not included",
+      "gold_evidence": [],
+      "pred_label": "not enough information",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.7467267800002446,
+      "n_prompt_tokens": 232,
+      "n_new_tokens": 14,
+      "category": "missed_decision",
+      "gold_evidence_text": {},
+      "pred_evidence_text": {},
+      "contradictory": false
+    },
+    {
+      "annotation_id": 185,
+      "patient_id": "sigir-201411",
+      "trial_id": "NCT01526382",
+      "criterion_type": "inclusion",
+      "criterion_text": "Patients were included if they were diagnosed with Shock, Acute respiratory distress syndrome (ARDS), or both.",
+      "gold_label": "included",
+      "gold_evidence": [
+        2,
+        3
+      ],
+      "pred_label": "not enough information",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.9326831470002617,
+      "n_prompt_tokens": 266,
+      "n_new_tokens": 14,
+      "category": "missed_decision",
+      "gold_evidence_text": {
+        "2": "On examination she is pale and in moderate discomfort, as well as tachypneic and tachycardic.",
+        "3": "Her body temperature is normal and her blood pressure is 80/60."
+      },
+      "pred_evidence_text": {},
+      "contradictory": false
+    },
+    {
+      "annotation_id": 383,
+      "patient_id": "sigir-201421",
+      "trial_id": "NCT00997100",
+      "criterion_type": "inclusion",
+      "criterion_text": "Present with active SLE disease with at least one of the following symptoms: i) Arthritis - > 2 joints with pain and signs of inflammation (i.e. tenderness, swelling, or effusion) ii) Inflammatory-type skin rash iii) Oral ulcers",
+      "gold_label": "included",
+      "gold_evidence": [
+        0,
+        1
+      ],
+      "pred_label": "not enough information",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.9004669840001043,
+      "n_prompt_tokens": 308,
+      "n_new_tokens": 14,
+      "category": "missed_decision",
+      "gold_evidence_text": {
+        "0": "A 21-year-old female is evaluated for progressive arthralgias and malaise.",
+        "1": "On examination she is found to have alopecia, a rash mainly distributed on the bridge of her nose and her cheeks, a delicate non-palpable purpura on her calves, and swelling and tenderness of her wrists and ankles."
+      },
+      "pred_evidence_text": {},
+      "contradictory": false
+    },
+    {
+      "annotation_id": 162,
+      "patient_id": "sigir-201410",
+      "trial_id": "NCT02097186",
+      "criterion_type": "inclusion",
+      "criterion_text": "Patients undergoing open abdominal aortic aneurysm repair",
+      "gold_label": "not included",
+      "gold_evidence": [],
+      "pred_label": "included",
+      "pred_evidence": [
+        0
+      ],
+      "raw_output": "{\"label\": \"included\", \"evidence\": [0]}",
+      "well_formed": true,
+      "latency_s": 0.7478143289999934,
+      "n_prompt_tokens": 231,
+      "n_new_tokens": 14,
+      "category": "polarity_flip",
+      "gold_evidence_text": {},
+      "pred_evidence_text": {
+        "0": "A physician is called to see a 67-year-old woman who underwent cardiac catheterization via the right femoral artery earlier in the morning."
+      },
+      "contradictory": false
+    },
+    {
+      "annotation_id": 422,
+      "patient_id": "sigir-201422",
+      "trial_id": "NCT00236912",
+      "criterion_type": "inclusion",
+      "criterion_text": "If female, using birth control",
+      "gold_label": "not applicable",
+      "gold_evidence": [
+        3
+      ],
+      "pred_label": "not enough information",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.7799582220000048,
+      "n_prompt_tokens": 252,
+      "n_new_tokens": 14,
+      "category": "na_confusion",
+      "gold_evidence_text": {
+        "3": "She has had no sexual partners and her menses are regular."
+      },
+      "pred_evidence_text": {},
+      "contradictory": false
+    },
+    {
+      "annotation_id": 745,
+      "patient_id": "sigir-201513",
+      "trial_id": "NCT01255670",
+      "criterion_type": "inclusion",
+      "criterion_text": "female patients have adequate birth-control method",
+      "gold_label": "not applicable",
+      "gold_evidence": [],
+      "pred_label": "not enough information",
+      "pred_evidence": [],
+      "raw_output": "{\"label\": \"not enough information\", \"evidence\": []}",
+      "well_formed": true,
+      "latency_s": 0.7950292599998647,
+      "n_prompt_tokens": 244,
+      "n_new_tokens": 14,
+      "category": "na_confusion",
+      "gold_evidence_text": {},
+      "pred_evidence_text": {},
+      "contradictory": false
+    }
+  ]
+}
