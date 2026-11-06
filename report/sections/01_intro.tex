@@ -1,0 +1,15 @@
+\section{Introduction}
+Enrolling the right patients in a clinical trial is slow largely because eligibility is written as free text. A trial protocol lists a dozen or more inclusion and exclusion criteria; a clinician must read each one against the patient's record. Large language models (LLMs) can perform this reading, and TrialGPT~\cite{jin2024trialgpt} showed that a GPT-4-based pipeline can predict criterion-level eligibility and cite the supporting note sentences with accuracy approaching that of human experts. That work, however, relies on a proprietary model behind a paid API, which is unsuitable for privacy-sensitive records and for students without budget.
+
+\textbf{Problem statement.} Given (i) a patient description whose sentences are numbered, (ii) a criterion type (inclusion or exclusion), and (iii) the criterion text, predict the expert eligibility label---including \emph{not enough information} and \emph{not applicable}, which are never collapsed into yes/no---and the IDs of the sentences that justify it. We require the solution to run on freely available hardware with an open-weight model, to be evaluated on a fixed, patient-grouped held-out split, and to expose the Transformer inference machinery explicitly rather than through a library switch.
+
+\textbf{Contributions.}
+\begin{enumerate}
+\item A reproducible supervised adaptation of a 360M-parameter decoder (and a 135M draft) on the prescribed corpus, with before/after comparison on identical validation and test cases, plus per-class, per-criterion-type and evidence-level metrics and an error analysis.
+\item A from-scratch Llama-architecture decoder with an explicit KV cache (growth, rollback, position handling), verified against the Hugging Face implementation.
+\item A tiled attention routine using the online-softmax recurrence, validated against a reference attention across shapes, masks and cache offsets.
+\item A greedy speculative decoder with synchronised target/draft caches whose outputs are token-identical to greedy target decoding, with acceptance statistics and an honest speed analysis.
+\item A browser application that ties these parts together and lets a user compare decoding modes live.
+\end{enumerate}
+
+The remainder of the paper is organised as follows. Section~II reviews related work, Section~III describes data, model and algorithms, Section~IV the experimental setup, Section~V the results, and Section~VI limitations and conclusions.

@@ -1,0 +1,54 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125em X}}
+\graphicspath{{figures/}}
+\input{generated/numbers.tex}
+\input{generated/gpu_numbers.tex}
+
+\begin{document}
+
+\title{Criterion-Level Clinical-Trial Eligibility Screening with a Fine-Tuned Small Transformer:\\
+KV-Cached Decoding, Tiled Online-Softmax Attention and Speculative Decoding on Commodity CPUs}
+
+\author{\IEEEauthorblockN{[AUTHOR NAME]}
+\IEEEauthorblockA{[Roll No.] \\ Department of [Department], [University]\\
+Generative AI (Semester 7), Assignment 2\\
+[email address]}}
+
+\maketitle
+
+\begin{abstract}
+Matching a patient to a clinical trial requires deciding, for every inclusion and exclusion criterion, whether the patient record satisfies it, contradicts it, or simply does not say. We build and evaluate a complete, locally executable system for this criterion-level task on the TrialGPT Criterion Annotations corpus using a patient-grouped 37/8/8 split. An open-weight decoder (SmolLM2-1.7B-Instruct on a free GPU; a 360M variant on a laptop CPU) is adapted with LoRA to emit a structured JSON answer containing one of the dataset's expert label categories and the IDs of the supporting patient sentences. On the untouched test split the adapted 1.7B model reaches \GTestAcc{} accuracy and \GTestMF{} macro-F1 (zero-shot base model: \GBaseAcc{} and \GBaseMF{}; majority-label baseline: \GMajAcc{} and \GMajMF{}), with micro evidence-sentence F1 of \GTestEvF{}. An error analysis shows that the gain comes from inclusion criteria, whereas for exclusion criteria the model collapses to the majority label \emph{not excluded}. Beyond accuracy, we re-implement the inference stack from first principles: a Llama-style decoder with an explicit, rollback-capable KV cache; a tiled attention kernel with online softmax; and greedy speculative decoding with a LoRA-adapted draft model. Every mechanism is validated for exact agreement with a reference path (the cache is \GKVSpeedup$\times$ faster than recomputation at 512+128 tokens; speculative decoding is exact but, honestly, slower than greedy with the chosen draft) and benchmarked for latency, throughput and memory on both a GPU and a laptop CPU. The pieces are integrated in a browser application that exposes per-criterion evidence, a live decoding-mode comparison and exportable reports. The system is an educational prototype and not a clinical decision tool.
+\end{abstract}
+
+\begin{IEEEkeywords}
+clinical trial matching, eligibility criteria, LoRA, KV cache, online softmax, speculative decoding, small language models
+\end{IEEEkeywords}
+
+\input{sections/01_intro}
+\input{sections/02_related}
+\input{sections/03_methods}
+\input{sections/04_setup}
+\input{sections/05_results}
+\input{sections/06_limits}
+
+\section*{Acknowledgment and AI-Use Statement}
+\input{sections/07_ai_use}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

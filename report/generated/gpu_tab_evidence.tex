@@ -1,0 +1,12 @@
+\begin{tabular}{llrrrr}\toprule
+Model & Scope & P & R & F1 & Type \\\midrule
+base & overall & 0.091 & 0.447 & 0.151 & micro \\
+base & inclusion & 0.158 & 0.500 & 0.240 & micro \\
+base & exclusion & 0.041 & 0.344 & 0.074 & micro \\
+base & overall & 0.267 & 0.412 & 0.295 & macro (gold$\neq\emptyset$) \\
+base & overall & 0.079 & 0.122 & 0.087 & macro (all records) \\\midrule
+fine-tuned & overall & 0.538 & 0.298 & 0.384 & micro \\
+fine-tuned & inclusion & 0.538 & 0.452 & 0.491 & micro \\
+fine-tuned & exclusion & 0.000 & 0.000 & 0.000 & micro \\
+fine-tuned & overall & 0.290 & 0.295 & 0.277 & macro (gold$\neq\emptyset$) \\
+fine-tuned & overall & 0.761 & 0.762 & 0.757 & macro (all records) \\\bottomrule\end{tabular}
