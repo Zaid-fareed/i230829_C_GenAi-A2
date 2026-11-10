@@ -36,6 +36,8 @@ def test_api():
         st = c.get("/api/status").json()
         assert st["status"] == "ready", st
         assert c.get("/").status_code == 200
+        stored = c.get("/api/stored_benchmarks").json()
+        assert len(stored["configs"]) == 2 and stored["majority_test"] is not None, stored.keys()
         # input validation / recovery from invalid input
         assert c.post("/api/predict", json={"note": "short", "criterion": {"type": "inclusion", "text": "x"}}).status_code == 422
         assert c.post("/api/predict", json={"note": "A" * 40, "criterion": {"type": "weird", "text": "abc"}}).status_code == 422

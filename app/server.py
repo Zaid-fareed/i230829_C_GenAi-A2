@@ -213,14 +213,22 @@ def benchmark(req: BenchReq):
 
 @app.get("/api/stored_benchmarks")
 def stored():
+    """Result files of BOTH configurations, read from disk at request time (nothing is cached or hard-coded)."""
     files = {"bench_kv": "bench_kv.json", "bench_attention": "bench_attention.json", "bench_spec": "bench_spec.json",
              "finetuned_test": "finetuned_test.json", "base_zeroshot_test": "base_zeroshot_test.json"}
+    configs = {"Configuration A - GPU (SmolLM2-1.7B target, 360M draft)": "metrics_gpu",
+               "Configuration B - laptop CPU (SmolLM2-360M target, 135M draft)": "metrics"}
     out = {}
-    for key, fname in files.items():
-        p = ROOT / "results" / "metrics" / fname
-        if p.exists():
-            out[key] = json.loads(p.read_text())
-    return out
+    for name, folder in configs.items():
+        d = {}
+        for key, fname in files.items():
+            p = ROOT / "results" / folder / fname
+            if p.exists():
+                d[key] = json.loads(p.read_text())
+        if d:
+            out[name] = d
+    maj = ROOT / "results" / "metrics" / "baseline_majority.json"
+    return {"configs": out, "majority_test": json.loads(maj.read_text())["test"] if maj.exists() else None}
 
 
 def _provenance(mode):

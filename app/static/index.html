@@ -136,7 +136,8 @@ async function pollStatus(){
 pollStatus();
 // ---------- samples
 (async()=>{try{SAMPLES=(await jget('/api/samples')).samples;$('#sample').innerHTML+=SAMPLES.map((s,i)=>`<option value="${i}">${esc(s.patient_id)} (${s.trials.length} trials)</option>`).join('');}catch(e){}})();
-$('#sample').onchange=e=>{const s=SAMPLES[e.target.value]; if(!s)return; $('#note').value=s.note; renderNote(s.note,[],[]);
+$('#note').addEventListener('input',()=>showErr(''));   // clear a stale validation message as soon as the user edits
+$('#sample').onchange=e=>{const s=SAMPLES[e.target.value]; if(!s)return; showErr(''); $('#note').value=s.note; renderNote(s.note,[],[]);
   $('#trialSel').innerHTML='<option value="">Choose a sample trial…</option>'+s.trials.map((t,i)=>`<option value="${i}">${esc(t.trial_id)} - ${esc(t.title.slice(0,70))}</option>`).join('');};
 $('#trialSel').onchange=e=>{const s=SAMPLES[$('#sample').value]; if(!s||e.target.value==='')return; const t=s.trials[e.target.value]; TRIALLABEL=`${t.trial_id} - ${t.title}`;
   CRITS=t.criteria.map(c=>({type:c.type,text:c.text,expert_label:c.expert_label,expert_evidence:c.expert_evidence})); renderCrits();};
@@ -192,13 +193,16 @@ $('#btnBench').onclick=async()=>{ const crits=CRITS.filter(c=>c.text.trim()); co
     $('#benchMsg').textContent=''; }catch(e){$('#benchMsg').innerHTML=`<div class="err">${esc(e.message)}</div>`;} $('#btnBench').disabled=false; };
 // ---------- experiments
 const f3=x=>x==null?'-':(+x).toFixed(3);
-function lineChart(series,xs,w=520,h=220,ylab=''){ const all=series.flatMap(s=>s.y.filter(v=>v!=null)); const ymax=Math.max(...all)*1.1||1; const L=48,B=28,T=10,R=10; const X=i=>L+(w-L-R)*i/(xs.length-1||1), Y=v=>T+(h-T-B)*(1-v/ymax); const cols=['#2457c5','#c25b00','#1b7f3b','#8a2be2'];
+function lineChart(series,xs,w=520,h=220,ylab=''){ const all=series.flatMap(s=>s.y.filter(v=>v!=null)); const ymax=Math.max(...all)*1.1||1; const L=48,B=28,T=10,R=26; const X=i=>L+(w-L-R)*i/(xs.length-1||1), Y=v=>T+(h-T-B)*(1-v/ymax); const cols=['#2457c5','#c25b00','#1b7f3b','#8a2be2'];
   return `<svg width="${w}" height="${h}" role="img">`+[0,.25,.5,.75,1].map(t=>`<line x1="${L}" x2="${w-R}" y1="${Y(ymax*t)}" y2="${Y(ymax*t)}" stroke="#8884" /><text x="2" y="${Y(ymax*t)+4}">${(ymax*t).toFixed(ymax>10?0:2)}</text>`).join('')+xs.map((x,i)=>`<text x="${X(i)-8}" y="${h-10}">${x}</text>`).join('')+
   series.map((s,k)=>`<polyline fill="none" stroke="${cols[k%4]}" stroke-width="2" points="${s.y.map((v,i)=>v==null?'':`${X(i)},${Y(v)}`).join(' ')}"/>`+s.y.map((v,i)=>v==null?'':`<circle cx="${X(i)}" cy="${Y(v)}" r="3" fill="${cols[k%4]}"/>`).join('')+`<text x="${L+8+k*130}" y="${T+10}" style="fill:${cols[k%4]}">■ ${esc(s.name)}</text>`).join('')+`<text x="${w/2-30}" y="${h}">${ylab}</text></svg>`; }
-async function loadExp(){ let d; try{d=await jget('/api/stored_benchmarks');}catch(e){$('#expOut').innerHTML=`<div class="err">${esc(e.message)}</div>`;return;}
+async function loadExp(){ let r; try{r=await jget('/api/stored_benchmarks');}catch(e){$('#expOut').innerHTML=`<div class="err">${esc(e.message)}</div>`;return;}
+  let out=''; for(const [name,d] of Object.entries(r.configs||{})){ out+=`<h2 style="margin-top:22px">${esc(name)}</h2>`+renderExp(d,r.majority_test); }
+  $('#expOut').innerHTML=out||'<p class="muted">No stored results yet - run the evaluation and benchmark scripts.</p>'; }
+function renderExp(d,maj){
   let h=''; const A=d.base_zeroshot_test, B=d.finetuned_test;
   if(B){ const row=(n,r)=>r?`<tr><td>${n}</td><td>${f3(r.overall.classification.accuracy)}</td><td>${f3(r.overall.classification.macro_f1)}</td><td>${f3(r.inclusion.classification.macro_f1)}</td><td>${f3(r.exclusion.classification.macro_f1)}</td><td>${f3(r.overall.evidence.micro.f1)}</td></tr>`:'';
-    h+=`<h3>Held-out test split (${B.meta.n} criteria, 8 patients): before vs after fine-tuning</h3><table><tr><th>model</th><th>accuracy</th><th>macro-F1</th><th>incl. macro-F1</th><th>excl. macro-F1</th><th>evidence micro-F1</th></tr>${row('base, zero-shot',A)}${row('fine-tuned (LoRA)',B)}</table>`; }
+    h+=`<h3>Held-out test split (${B.meta.n} criteria, 8 patients): before vs after fine-tuning</h3><table><tr><th>model</th><th>accuracy</th><th>macro-F1</th><th>incl. macro-F1</th><th>excl. macro-F1</th><th>evidence micro-F1</th></tr>${row('majority label (no model)',maj)}${row('base, zero-shot',A)}${row('fine-tuned (LoRA)',B)}</table>`; }
   if(d.bench_kv){ const g=d.bench_kv; const outs=[...new Set(g.map(x=>x.n_out))], ins=[...new Set(g.map(x=>x.n_in))]; const mid=ins[Math.floor(ins.length/2)];
     h+=`<h3>KV cache benchmark (greedy, tokens identical to reference in ${g.filter(x=>x.tokens_match_reference).length}/${g.length} runs)</h3><table><tr><th>input</th><th>output</th><th>mode</th><th>prefill s</th><th>decode s</th><th>tok/s</th><th>peak Δ MB</th><th>match</th></tr>`+g.map(x=>`<tr><td>${x.n_in}</td><td>${x.n_out}</td><td>${x.mode}</td><td>${x.prefill_s.toFixed(3)}</td><td>${x.decode_s.toFixed(3)}</td><td>${x.tok_per_s.toFixed(1)}</td><td>${x.peak_delta_mb.toFixed(0)}</td><td>${x.tokens_match_reference?'✓':'✗'}</td></tr>`).join('')+`</table>`;
     const modes=[...new Set(g.map(x=>x.mode))]; h+=`<p class="small muted">Total time vs output length (input = ${mid} tokens)</p>`+lineChart(modes.map(m=>({name:m,y:outs.map(o=>{const r=g.find(x=>x.mode===m&&x.n_in===mid&&x.n_out===o);return r?r.total_s:null;})})),outs,520,220,'output tokens'); }
@@ -206,7 +210,7 @@ async function loadExp(){ let d; try{d=await jget('/api/stored_benchmarks');}cat
     h+=`<h3>Attention back-ends (prefill, 15 heads, d=64)</h3>`+lineChart(['reference','tiled','sdpa'].map(m=>({name:m,y:Ts.map(t=>{const r=g.find(x=>x.impl===m&&x.T===t);return r?r.median_ms:null;})})),Ts,520,220,'sequence length - median ms')+
     `<table><tr><th>impl</th><th>T</th><th>ms</th><th>max |err|</th><th>mean |err|</th><th>peak Δ MB</th></tr>`+g.map(x=>`<tr><td>${x.impl}</td><td>${x.T}</td><td>${x.median_ms.toFixed(1)}</td><td>${x.max_abs_err.toExponential(1)}</td><td>${x.mean_abs_err.toExponential(1)}</td><td>${x.peak_delta_mb.toFixed(0)}</td></tr>`).join('')+`</table>`; }
   if(d.bench_spec){ for(const [name,s] of Object.entries(d.bench_spec.settings)){ h+=`<h3>Speculative decoding - ${name.replace('_',' ')} (greedy target: ${s.greedy_target.latency_s.toFixed(3)} s, ${s.greedy_target.tok_per_s.toFixed(1)} tok/s)</h3><table><tr><th>draft</th><th>k</th><th>equal to greedy</th><th>acceptance</th><th>latency s</th><th>tok/s</th><th>speed-up</th></tr>`+s.speculative.map(x=>`<tr><td>${x.draft}</td><td>${x.k}</td><td>${x.equal_to_greedy}</td><td>${(100*x.acceptance_rate).toFixed(0)}%</td><td>${x.latency_s.toFixed(3)}</td><td>${x.tok_per_s.toFixed(1)}</td><td>${x.speedup_vs_greedy.toFixed(2)}×</td></tr>`).join('')+`</table>`; } h+=`<p class="small muted">${esc(d.bench_spec.hf_assisted_generation_check||'')}</p>`; }
-  $('#expOut').innerHTML=h||'<p class="muted">No stored results yet - run the evaluation and benchmark scripts.</p>'; }
+  return h||'<p class="muted">No stored results for this configuration.</p>'; }
 </script>
 </body>
 </html>
