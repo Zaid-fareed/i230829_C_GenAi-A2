@@ -3,7 +3,7 @@
 | Code | Evidence in this folder |
 |---|---|
 | A1 literature | `report/references.bib` (22 entries), `report/sections/02_related.tex`, `docs/RESEARCH_NOTES.md` |
-| A2 model choice | paper §III-C, Table "candidates" (`results/metrics/candidate_compare.json`), `docs/model_configs/` |
+| A2 model choice | paper §III-C, Table "candidates" (`scripts/make_candidate_table.py`, `results/metrics/candidate_table.json`), `docs/model_configs/` |
 | A3 decisions/difficulties | `docs/DESIGN_DECISIONS.md` (alternatives, rejected options, Kaggle/CPU difficulties) |
 | B1 dataset/split | `src/data.py`, `data/processed/split_manifest.json`, leakage asserts in `check_no_leakage` |
 | B2 preprocessing | `src/data.py` (GPT-4 columns dropped in `load_raw`), `scripts/train.py:encode_example` |

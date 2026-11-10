@@ -32,5 +32,5 @@ papers – re-check each entry (volume, pages, arXiv number) against the publish
 | License | Apache-2.0 | Apache-2.0 | Apache-2.0 |
 | Role | **target** | **draft** | rejected (see design decisions) |
 
-Measured numbers (parameter counts, one LoRA step time, zero-shot behaviour) are produced by
-`scripts/candidate_compare.py` → `results/metrics/candidate_compare.json`.
+Parameter counts, fp32 memory and KV-cache cost per token are computed from each config.json by
+`scripts/make_candidate_table.py` → `report/generated/tab_candidates.tex` and `results/metrics/candidate_table.json` (`scripts/candidate_compare.py` can additionally time one LoRA step per model, optional and not used in the paper).

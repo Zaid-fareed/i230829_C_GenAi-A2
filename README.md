@@ -69,7 +69,7 @@ python scripts/evaluate.py --split validation --adapter best --tag finetuned
 python scripts/evaluate.py --split test --adapter none --tag base_zeroshot   # final: run once
 python scripts/evaluate.py --split test --adapter best --tag finetuned
 python scripts/bootstrap_ci.py finetuned test ; python scripts/error_analysis.py finetuned test
-python scripts/baselines.py ; python scripts/candidate_compare.py
+python scripts/baselines.py ; python scripts/make_candidate_table.py
 python scripts/bench_kv.py ; python scripts/bench_attention.py ; python scripts/bench_spec.py
 python scripts/make_figures.py ; python scripts/make_tables.py
 ```
@@ -85,9 +85,22 @@ Tabs: **Screen a patient** (note → criteria → per-criterion label/evidence/e
 **Help**. If the adapter is missing the app falls back to the base model and says so in the header.
 
 ## Model weights
-`checkpoints/adapters/smollm2-360m-lora/best/` and `.../smollm2-135m-lora/best/` hold the LoRA adapters (~35 MB / ~13 MB).
-Download link for hosting outside Git: **TODO – add Hugging Face / Drive URL before submission** (see `docs/SUBMISSION_CHECKLIST.md`).
-Base weights are fetched from the Hugging Face Hub by `scripts/download_models.py`.
+The trained LoRA adapters are hosted on Hugging Face (not in Git):
+**https://huggingface.co/ZaidFareed/i230829-genai-a2-adapters**
+
+| Folder | Base model | Role |
+|---|---|---|
+| `smollm2-1.7b-lora` (69 MB) | SmolLM2-1.7B-Instruct | GPU target (headline results) |
+| `smollm2-360m-gpu-lora` (33 MB) | SmolLM2-360M-Instruct | GPU draft |
+| `smollm2-360m-lora` (33 MB) | SmolLM2-360M-Instruct | CPU target, web-app default |
+| `smollm2-135m-lora` (19 MB) | SmolLM2-135M-Instruct | CPU draft |
+
+```powershell
+python scripts/download_models.py                                         # base models from the Hugging Face Hub
+python scripts/download_adapters.py ZaidFareed/i230829-genai-a2-adapters  # adapters -> checkpoints/adapters/<name>/best/
+```
+To serve the 1.7B GPU model in the app instead of the laptop model: `$env:TRIAL_PROFILE="configs/profile_gpu.json"; python app/server.py`
+(needs a CUDA GPU; otherwise very slow).
 
 ## Tests
 ```powershell
