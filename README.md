@@ -6,6 +6,10 @@ predicts the expert eligibility label **and** the supporting note-sentence IDs, 
 
 > **Educational screening prototype – not a clinical enrollment decision.**
 
+**Links:** [Demo video](https://youtu.be/uVTm5AuokaU) ·
+[Trained adapters (Hugging Face)](https://huggingface.co/ZaidFareed/i230829-genai-a2-adapters) ·
+report: `i230829_C_A2_Report.pdf`
+
 | Part | Where |
 |---|---|
 | Fine-tuned model (SmolLM2-360M-Instruct + LoRA) and 135M draft | `scripts/train.py`, `configs/` |

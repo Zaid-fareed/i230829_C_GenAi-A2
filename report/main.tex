@@ -29,6 +29,12 @@ Generative AI (Semester 7), Assignment 2}}
 
 \maketitle
 
+\begin{center}\footnotesize
+\textbf{Code:} \url{https://github.com/Zaid-fareed/i230829_C_GenAi-A2}\\
+\textbf{Model weights (LoRA adapters):} \url{https://huggingface.co/ZaidFareed/i230829-genai-a2-adapters}\\
+\textbf{Demo video:} \url{https://youtu.be/uVTm5AuokaU}
+\end{center}
+
 \begin{abstract}
 Matching a patient to a clinical trial requires deciding, for every inclusion and exclusion criterion, whether the patient record satisfies it, contradicts it, or simply does not say. We build and evaluate a complete, locally executable system for this criterion-level task on the TrialGPT Criterion Annotations corpus using a patient-grouped 37/8/8 split. An open-weight decoder (SmolLM2-1.7B-Instruct on a free GPU; a 360M variant on a laptop CPU) is adapted with LoRA to emit a structured JSON answer containing one of the dataset's expert label categories and the IDs of the supporting patient sentences. On the untouched test split the adapted 1.7B model reaches \GTestAcc{} accuracy and \GTestMF{} macro-F1 (zero-shot base model: \GBaseAcc{} and \GBaseMF{}; majority-label baseline: \GMajAcc{} and \GMajMF{}), with micro evidence-sentence F1 of \GTestEvF{}. An error analysis shows that the gain comes from inclusion criteria, whereas for exclusion criteria the model collapses to the majority label \emph{not excluded}. Beyond accuracy, we re-implement the inference stack from first principles: a Llama-style decoder with an explicit, rollback-capable KV cache; a tiled attention kernel with online softmax; and greedy speculative decoding with a LoRA-adapted draft model. Every mechanism is validated for exact agreement with a reference path (the cache is \GKVSpeedup$\times$ faster than recomputation at 512+128 tokens; speculative decoding is exact but, honestly, slower than greedy with the chosen draft) and benchmarked for latency, throughput and memory on a GPU; a second, laptop-CPU configuration with a 360M model supplies the locally hosted application. The pieces are integrated in a browser application that exposes per-criterion evidence, a live decoding-mode comparison and exportable reports. The system is an educational prototype and not a clinical decision tool.
 \end{abstract}
@@ -45,7 +51,7 @@ clinical trial matching, eligibility criteria, LoRA, KV cache, online softmax, s
 \input{sections/06_limits}
 
 \section*{Code, Data and Model Availability}
-Source code, configuration files, the split manifest, result files, benchmark logs and reproduction instructions are available at \url{https://github.com/Zaid-fareed/i230829_C_GenAi-A2}. The trained LoRA adapters (SmolLM2-1.7B and 360M from the GPU configuration; 360M and 135M from the CPU configuration) are hosted at \url{https://huggingface.co/ZaidFareed/i230829-genai-a2-adapters} and can be installed with \texttt{python scripts/download\_adapters.py ZaidFareed/i230829-genai-a2-adapters}. The base models are downloaded from the Hugging Face Hub by \texttt{scripts/download\_models.py}, and the dataset is the public TrialGPT Criterion Annotations release~\cite{ncbi2024dataset}. The application demonstration video is linked in the submission.
+Source code, configuration files, the split manifest, result files, benchmark logs and reproduction instructions are available at \url{https://github.com/Zaid-fareed/i230829_C_GenAi-A2}. The trained LoRA adapters (SmolLM2-1.7B and 360M from the GPU configuration; 360M and 135M from the CPU configuration) are hosted at \url{https://huggingface.co/ZaidFareed/i230829-genai-a2-adapters} and can be installed with \texttt{python scripts/download\_adapters.py ZaidFareed/i230829-genai-a2-adapters}. The base models are downloaded from the Hugging Face Hub by \texttt{scripts/download\_models.py}, and the dataset is the public TrialGPT Criterion Annotations release~\cite{ncbi2024dataset}. The application demonstration video is available at \url{https://youtu.be/uVTm5AuokaU}.
 
 \section*{Acknowledgment and AI-Use Statement}
 \input{sections/07_ai_use}
