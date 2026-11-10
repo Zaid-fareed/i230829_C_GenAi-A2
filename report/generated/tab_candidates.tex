@@ -1,0 +1,7 @@
+\begin{tabular}{lrrrrrrrl}\toprule
+Model & Params & fp32 (GB) & Layers & Heads/KV & Vocab & Ctx & KV/token (kB) & Role \\\midrule
+SmolLM2-1.7B & 1.71\,B & 6.85 & 24 & 32/32 & 49\,152 & 8\,192 & 393 & target (A) \\
+SmolLM2-360M & 362\,M & 1.45 & 32 & 15/5 & 49\,152 & 8\,192 & 82 & target (B) / draft (A) \\
+SmolLM2-135M & 135\,M & 0.54 & 30 & 9/3 & 49\,152 & 8\,192 & 46 & draft (B) \\
+Qwen2.5-0.5B & 494\,M & 1.98 & 24 & 14/2 & 151\,936 & 32\,768 & 25 & rejected \\
+\bottomrule\end{tabular}

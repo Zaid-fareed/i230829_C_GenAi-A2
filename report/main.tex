@@ -23,10 +23,9 @@
 \title{Criterion-Level Clinical-Trial Eligibility Screening with a Fine-Tuned Small Transformer:\\
 KV-Cached Decoding, Tiled Online-Softmax Attention and Speculative Decoding}
 
-\author{\IEEEauthorblockN{[AUTHOR NAME]}
-\IEEEauthorblockA{[Roll No.] \\ Department of [Department], [University]\\
-Generative AI (Semester 7), Assignment 2\\
-[email address]}}
+\author{\IEEEauthorblockN{Zaid Fareed}
+\IEEEauthorblockA{23i-0829 \\ Department of CS, FAST-NUCES ISB\\
+Generative AI (Semester 7), Assignment 2}}
 
 \maketitle
 
@@ -44,6 +43,9 @@ clinical trial matching, eligibility criteria, LoRA, KV cache, online softmax, s
 \input{sections/04_setup}
 \input{sections/05_results}
 \input{sections/06_limits}
+
+\section*{Code, Data and Model Availability}
+Source code, configuration files, the split manifest, result files, benchmark logs and reproduction instructions are available at \url{https://github.com/Zaid-fareed/i230829_C_GenAi-A2}. The trained LoRA adapters (SmolLM2-1.7B and 360M from the GPU configuration; 360M and 135M from the CPU configuration) are hosted at \url{https://huggingface.co/ZaidFareed/i230829-genai-a2-adapters} and can be installed with \texttt{python scripts/download\_adapters.py ZaidFareed/i230829-genai-a2-adapters}. The base models are downloaded from the Hugging Face Hub by \texttt{scripts/download\_models.py}, and the dataset is the public TrialGPT Criterion Annotations release~\cite{ncbi2024dataset}. The application demonstration video is linked in the submission.
 
 \section*{Acknowledgment and AI-Use Statement}
 \input{sections/07_ai_use}
